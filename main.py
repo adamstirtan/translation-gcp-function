@@ -19,9 +19,11 @@ def make_translation_request(text, target_language, source_language):
     if (target_language == source_language):
         return text
 
-    return translate_client.translate(
-        text, target_language, source_language
+    translated_text = translate_client.translate(
+        text, target_language = target_language, source_language = source_language
     )
+
+    return translated_text
 
 def translate(request, language):
     if request.method != 'POST':
@@ -32,7 +34,7 @@ def translate(request, language):
     text = request.form['text']
     source_language = translate_client.detect_language(text)
 
-    translation_response = make_translation_request(text, language, source_language)
+    translation_response = make_translation_request(text, language, source_language['language'])
 
     return jsonify(translation_response)
 
